@@ -34,6 +34,26 @@ interface WorkflowStep {
   date: string;
 }
 
+interface ProjectListRow {
+  id: string;
+  name: string;
+  manager: string;
+  role: string;
+  document: string;
+  priority: number;
+  financeBy: string;
+  submissionDate: string;
+  decision: string;
+}
+
+interface ProjectWorkflowStep {
+  role: string;
+  status: 'Approved' | 'Submitted';
+  date?: string;
+  owner: string;
+  current?: boolean;
+}
+
 @Component({
   selector: 'app-home',
   imports: [AppIcon, ...MATERIAL_IMPORTS],
@@ -45,7 +65,7 @@ export class Home {
   private readonly router = inject(Router);
   private readonly destroyRef = inject(DestroyRef);
 
-  protected readonly activeItem = signal('Projects');
+  protected readonly activeItem = signal('Ideas');
   protected readonly activeDocument = signal('Change Request 1');
   protected readonly activeAction = signal('Actions');
   protected readonly mobileNavOpen = signal(false);
@@ -83,6 +103,36 @@ export class Home {
     { role: 'PMO', status: 'Approved', date: '11. Nov 2025' },
     { role: 'SPONSOR', status: 'Approved', date: '11. Nov 2025' },
     { role: 'FICO', status: 'Approved', date: '11. Nov 2025' },
+  ];
+
+  protected readonly projectListRows: ProjectListRow[] = [
+    {
+      id: 'lA20',
+      name: 'Idea 20',
+      manager: 'Manager, Portfolio',
+      role: 'PMO',
+      document: 'Idea',
+      priority: 1,
+      financeBy: 'Development Proje',
+      submissionDate: '03.07.2025',
+      decision: 'Open',
+    },
+  ];
+
+  protected readonly projectPreviewTabs = ['Idea'];
+  protected readonly projectWorkflow: ProjectWorkflowStep[] = [
+    {
+      role: 'SPONSOR',
+      status: 'Approved',
+      date: '03. Jul 2025',
+      owner: 'Manager, Portfolio',
+    },
+    {
+      role: 'PMO',
+      status: 'Submitted',
+      owner: 'Manager, Portfolio',
+      current: true,
+    },
   ];
 
   constructor() {
@@ -129,7 +179,7 @@ export class Home {
   }
 
   private syncActiveRoute(): void {
-    const currentPath = this.router.url.split(/[?#]/)[0] || '/projects';
+    const currentPath = this.router.url.split(/[?#]/)[0] || '/ideas';
 
     for (const item of this.sidebarItems) {
       if (item.path === currentPath) {

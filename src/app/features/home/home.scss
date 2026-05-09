@@ -164,6 +164,300 @@ nav {
   box-shadow: none;
 }
 
+.projects-page {
+  overflow-x: hidden;
+  padding: 38px 0 44px;
+}
+
+.projects-page h1 {
+  margin: 0 0 18px;
+  color: #222631;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.filter-bar {
+  display: grid;
+  grid-template-columns: 210px minmax(0, 1fr) 18px;
+  align-items: center;
+  min-height: 42px;
+  border: 1px solid #e8ebf2;
+  border-radius: 3px;
+  background: #ffffff;
+  box-shadow: 0 3px 8px rgb(35 45 76 / 18%);
+  color: #303544;
+  font-size: 15px;
+}
+
+.filter-title {
+  height: 100%;
+  border: 0;
+  border-right: 1px solid #eef1f6;
+  background: transparent;
+  color: #222631;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 700;
+  text-align: left;
+  padding: 0 18px;
+}
+
+.filter-copy {
+  display: inline-flex;
+  align-items: center;
+  justify-self: center;
+  gap: 6px;
+}
+
+.filter-icon {
+  position: relative;
+  display: inline-block;
+  width: 13px;
+  height: 12px;
+}
+
+.filter-icon::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  clip-path: polygon(0 0, 100% 0, 62% 45%, 62% 100%, 38% 100%, 38% 45%);
+  background: #4c5367;
+}
+
+.filter-chevron {
+  width: 16px;
+  height: 16px;
+  color: #363c4d;
+  margin-right: 12px;
+}
+
+.projects-search {
+  display: flex;
+  justify-content: flex-end;
+  margin: 18px 0 8px;
+}
+
+.projects-search label {
+  position: relative;
+  display: block;
+  width: 312px;
+  height: 56px;
+  border-radius: 6px 6px 0 0;
+  background: #f5f7fb;
+}
+
+.projects-search input {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: #252b35;
+  padding: 0 52px 0 20px;
+  outline: none;
+}
+
+.projects-search input::placeholder {
+  color: #252b35;
+  opacity: 1;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.search-icon {
+  position: absolute;
+  top: 50%;
+  right: 18px;
+  width: 17px;
+  height: 17px;
+  border: 2.5px solid #303744;
+  border-radius: 50%;
+  transform: translateY(-50%);
+}
+
+.search-icon::after {
+  content: "";
+  position: absolute;
+  right: -6px;
+  bottom: -5px;
+  width: 8px;
+  height: 2.5px;
+  border-radius: 2px;
+  background: #303744;
+  transform: rotate(45deg);
+}
+
+.projects-grid {
+  width: 100%;
+  overflow-x: auto;
+  border-bottom: 1px solid #edf0f6;
+}
+
+.projects-header,
+.projects-row {
+  display: grid;
+  grid-template-columns: 28px 58px minmax(110px, 1.1fr) minmax(126px, 1.2fr) 70px 90px 76px minmax(125px, 1.1fr) minmax(124px, 1.1fr) 112px 72px;
+  align-items: center;
+  column-gap: 8px;
+  min-width: 930px;
+  min-height: 46px;
+  padding: 0 10px;
+  color: #2d3240;
+  font-size: 13px;
+}
+
+.projects-header {
+  background: #f8f9fc;
+  color: #343948;
+  font-weight: 600;
+}
+
+.projects-row {
+  border-bottom: 1px solid #edf0f6;
+}
+
+.select-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 94px;
+  height: 42px;
+  border: 0;
+  border-radius: 2px;
+  background: #f5f5fb;
+  color: #3a4051;
+  cursor: pointer;
+  padding: 0 12px;
+  font-size: 13px;
+}
+
+.select-button app-icon {
+  width: 14px;
+  height: 14px;
+}
+
+.preview-section {
+  margin-top: 18px;
+}
+
+.preview-tabs {
+  display: flex;
+  gap: 10px;
+}
+
+.preview-tabs button {
+  min-width: 76px;
+  height: 36px;
+  border: 1px solid #e8ebf2;
+  border-radius: 3px;
+  background: #ffffff;
+  color: #5961ee;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.project-workflow-section {
+  max-width: 520px;
+  margin-top: 18px;
+}
+
+.project-workflow-track {
+  display: grid;
+  grid-template-columns: repeat(2, 190px);
+  column-gap: 52px;
+}
+
+.project-workflow-item {
+  position: relative;
+  min-width: 0;
+}
+
+.project-workflow-role {
+  display: block;
+  margin-bottom: 17px;
+  color: #202436;
+  font-size: 12px;
+  font-weight: 700;
+  text-align: center;
+}
+
+.project-step-marker {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  width: 32px;
+  height: 32px;
+  margin: 0 auto 26px;
+  place-items: center;
+  border-radius: 50%;
+  background: #29d486;
+  color: #ffffff;
+  box-shadow: 0 4px 10px rgb(41 212 134 / 20%);
+}
+
+.project-step-marker app-icon {
+  width: 18px;
+  height: 18px;
+}
+
+.number-marker {
+  background: #4e4aa3;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.project-connector {
+  position: absolute;
+  top: 48px;
+  left: calc(50% + 16px);
+  width: calc(100% + 52px);
+  height: 2px;
+  background: #e4e6ee;
+}
+
+.project-approval-card {
+  width: 190px;
+  min-height: 126px;
+  border: 1px solid #edf0f6;
+  border-radius: 4px;
+  background: #ffffff;
+  box-shadow: none;
+  padding: 16px 18px;
+}
+
+.project-approval-card.current-card {
+  border-color: #42b9ff;
+  box-shadow: 0 0 0 1px rgb(66 185 255 / 16%);
+}
+
+.project-approval-card p {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin: 14px 0 0;
+  color: #252b35;
+  font-size: 12px;
+  line-height: 1;
+}
+
+.submitted-chip {
+  background: #ecebf7!important;
+  color: #746fa3!important;
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  min-height: 20px;
+  min-width: 64px;
+  padding: 0 9px;
+}
+
+.placeholder-icon {
+  display: inline-block;
+  width: 15px;
+  height: 15px;
+  flex: 0 0 15px;
+}
+
 .project-table {
   display: grid;
   border-bottom: 1px solid #f2f4fa;
@@ -560,6 +854,39 @@ h2 {
     padding: 24px 20px 36px;
   }
 
+  .projects-page {
+    padding-top: 28px;
+  }
+
+  .filter-bar {
+    grid-template-columns: minmax(0, 1fr) 28px;
+    min-height: auto;
+  }
+
+  .filter-title {
+    grid-column: 1 / -1;
+    min-height: 44px;
+    border-right: 0;
+    border-bottom: 1px solid #eef1f6;
+  }
+
+  .filter-copy {
+    justify-self: start;
+    padding: 12px 0 12px 18px;
+  }
+
+  .filter-chevron {
+    margin-right: 8px;
+  }
+
+  .projects-search {
+    margin-top: 18px;
+  }
+
+  .projects-search label {
+    width: min(312px, 100%);
+  }
+
   .project-table {
     overflow-x: auto;
   }
@@ -600,6 +927,48 @@ h2 {
   .documents button,
   .button-grid button {
     width: 100%;
+  }
+
+  .content {
+    padding: 20px 16px 32px;
+  }
+
+  .projects-page h1 {
+    font-size: 18px;
+  }
+
+  .filter-bar,
+  .filter-title {
+    font-size: 14px;
+  }
+
+  .filter-copy {
+    align-items: flex-start;
+    line-height: 1.35;
+  }
+
+  .projects-search {
+    justify-content: stretch;
+  }
+
+  .projects-search label {
+    width: 100%;
+  }
+
+  .projects-header,
+  .projects-row {
+    min-width: 820px;
+    font-size: 12px;
+  }
+
+  .project-workflow-section {
+    max-width: 100%;
+    overflow-x: auto;
+  }
+
+  .project-workflow-track {
+    grid-template-columns: repeat(2, 190px);
+    width: max-content;
   }
 
   .workflow-track {

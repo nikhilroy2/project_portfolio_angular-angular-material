@@ -5,7 +5,7 @@ const loadHome = () => import('./features/home/home').then((component) => compon
 export const routes: Routes = [
   {
     path: '',
-    redirectTo: 'projects',
+    redirectTo: 'ideas',
     pathMatch: 'full',
   },
   {
@@ -62,6 +62,6 @@ export const routes: Routes = [
   },
   {
     path: '**',
-    redirectTo: 'projects',
+    redirectTo: 'ideas',
   },
 ];

@@ -66,73 +66,171 @@
   </aside>
 
   <main class="content">
-    <section class="project-table" aria-label="Project requests">
-      @for (row of rows; track row.id) {
-        <div class="project-row">
-          <button class="expand-button" type="button" aria-label="Expand row">
-            <app-icon [name]="row.id === 524 ? 'expand_more' : 'chevron_right'" />
-          </button>
-          <strong>{{ row.id }}</strong>
-          <span class="project-title">{{ row.title }}</span>
-          <span class="request-type">{{ row.type }}</span>
-          <span class="order-number">{{ row.order ?? '' }}</span>
-          <span class="status-pill">{{ row.status }}</span>
-        </div>
-      }
-    </section>
+    @if (activeItem() === 'Projects') {
+      <section class="projects-page">
+        <h1>Projects</h1>
 
-    <section class="panel-section">
-      <h2>Documents</h2>
-      <div class="button-grid documents" role="tablist" aria-label="Documents">
-        @for (document of documents; track document) {
+        <div class="filter-bar">
+          <button class="filter-title" type="button">Projects Filters</button>
+          <span class="filter-copy">
+            Apply filters to refine the projects grid
+            <span class="filter-icon" aria-hidden="true"></span>
+          </span>
+          <app-icon class="filter-chevron" name="expand_more" />
+        </div>
+
+        <div class="projects-search">
+          <label>
+            <input type="search" placeholder="Search" aria-label="Search projects" />
+            <span class="search-icon" aria-hidden="true"></span>
+          </label>
+        </div>
+
+        <section class="projects-grid" aria-label="Projects grid">
+          <div class="projects-header">
+            <span></span>
+            <span>ID</span>
+            <span>Project Name</span>
+            <span>Project Manag...</span>
+            <span>Role</span>
+            <span>Document</span>
+            <span>Priori...</span>
+            <span>Finance By</span>
+            <span>Submission Da...</span>
+            <span>Action</span>
+            <span>Decision</span>
+          </div>
+
+          @for (row of projectListRows; track row.id) {
+            <div class="projects-row">
+              <button class="expand-button" type="button" aria-label="Expand project">
+                <app-icon name="expand_more" />
+              </button>
+              <span>{{ row.id }}</span>
+              <span>{{ row.name }}</span>
+              <span>{{ row.manager }}</span>
+              <span>{{ row.role }}</span>
+              <span>{{ row.document }}</span>
+              <span>{{ row.priority }}</span>
+              <span>{{ row.financeBy }}</span>
+              <span>{{ row.submissionDate }}</span>
+              <button class="select-button" type="button">
+                Select
+                <app-icon name="expand_more" />
+              </button>
+              <span>{{ row.decision }}</span>
+            </div>
+          }
+        </section>
+
+        <section class="preview-section">
+          <h2>Preview</h2>
+          <div class="preview-tabs">
+            @for (tab of projectPreviewTabs; track tab) {
+              <button type="button">{{ tab }}</button>
+            }
+          </div>
+        </section>
+
+        <section class="project-workflow-section">
+          <h2>Workflow</h2>
+          <div class="project-workflow-track">
+            @for (step of projectWorkflow; track step.role; let last = $last) {
+              <div class="project-workflow-item" [class.current]="step.current">
+                <span class="project-workflow-role">{{ step.role }}</span>
+                <span class="project-step-marker" [class.number-marker]="step.current">
+                  @if (step.current) {
+                    2
+                  } @else {
+                    <app-icon name="check" />
+                  }
+                </span>
+                @if (!last) {
+                  <span class="project-connector"></span>
+                }
+                <mat-card class="project-approval-card" [class.current-card]="step.current">
+                  <span class="status-chip" [class.submitted-chip]="step.status === 'Submitted'">{{ step.status }}</span>
+                  @if (step.date) {
+                    <p><span class="calendar-icon" aria-hidden="true"></span>{{ step.date }}</p>
+                  } @else {
+                    <p><span class="placeholder-icon" aria-hidden="true"></span>-</p>
+                  }
+                  <p><span class="person-icon" aria-hidden="true"></span>{{ step.owner }}</p>
+                </mat-card>
+              </div>
+            }
+          </div>
+        </section>
+      </section>
+    } @else {
+      <section class="project-table" aria-label="Project requests">
+        @for (row of rows; track row.id) {
+          <div class="project-row">
+            <button class="expand-button" type="button" aria-label="Expand row">
+              <app-icon [name]="row.id === 524 ? 'expand_more' : 'chevron_right'" />
+            </button>
+            <strong>{{ row.id }}</strong>
+            <span class="project-title">{{ row.title }}</span>
+            <span class="request-type">{{ row.type }}</span>
+            <span class="order-number">{{ row.order ?? '' }}</span>
+            <span class="status-pill">{{ row.status }}</span>
+          </div>
+        }
+      </section>
+
+      <section class="panel-section">
+        <h2>Documents</h2>
+        <div class="button-grid documents" role="tablist" aria-label="Documents">
+          @for (document of documents; track document) {
+            <button
+              type="button"
+              role="tab"
+              [class.active-tab]="activeDocument() === document"
+              [class.disabled-button]="activeDocument() === document"
+              [attr.aria-selected]="activeDocument() === document"
+              (click)="selectDocument(document)"
+            >
+              {{ document }}
+            </button>
+          }
+        </div>
+      </section>
+
+      <section class="panel-section">
+        <h2>Actions</h2>
+        <div class="button-grid" role="tablist" aria-label="Actions">
           <button
             type="button"
             role="tab"
-            [class.active-tab]="activeDocument() === document"
-            [class.disabled-button]="activeDocument() === document"
-            [attr.aria-selected]="activeDocument() === document"
-            (click)="selectDocument(document)"
+            [class.active-tab]="activeAction() === 'Actions'"
+            [attr.aria-selected]="activeAction() === 'Actions'"
+            (click)="selectAction('Actions')"
           >
-            {{ document }}
+            Actions
           </button>
-        }
-      </div>
-    </section>
+        </div>
+      </section>
 
-    <section class="panel-section">
-      <h2>Actions</h2>
-      <div class="button-grid" role="tablist" aria-label="Actions">
-        <button
-          type="button"
-          role="tab"
-          [class.active-tab]="activeAction() === 'Actions'"
-          [attr.aria-selected]="activeAction() === 'Actions'"
-          (click)="selectAction('Actions')"
-        >
-          Actions
-        </button>
-      </div>
-    </section>
-
-    <section class="panel-section workflow-section">
-      <h2>Workflow</h2>
-      <div class="workflow-track">
-        @for (step of workflow; track step.role; let last = $last) {
-          <div class="workflow-item">
-            <span class="workflow-role">{{ step.role }}</span>
-            <span class="check-circle"><app-icon name="check" /></span>
-            @if (!last) {
-              <span class="connector"></span>
-            }
-            <mat-card class="approval-card">
-              <span class="status-chip">{{ step.status }}</span>
-              <p><span class="calendar-icon" aria-hidden="true"></span>{{ step.date }}</p>
-              <p><span class="person-icon" aria-hidden="true"></span>-</p>
-            </mat-card>
-          </div>
-        }
-      </div>
-      <p class="approval-note">Order has been approved. ()</p>
-    </section>
+      <section class="panel-section workflow-section">
+        <h2>Workflow</h2>
+        <div class="workflow-track">
+          @for (step of workflow; track step.role; let last = $last) {
+            <div class="workflow-item">
+              <span class="workflow-role">{{ step.role }}</span>
+              <span class="check-circle"><app-icon name="check" /></span>
+              @if (!last) {
+                <span class="connector"></span>
+              }
+              <mat-card class="approval-card">
+                <span class="status-chip">{{ step.status }}</span>
+                <p><span class="calendar-icon" aria-hidden="true"></span>{{ step.date }}</p>
+                <p><span class="person-icon" aria-hidden="true"></span>-</p>
+              </mat-card>
+            </div>
+          }
+        </div>
+        <p class="approval-note">Order has been approved. ()</p>
+      </section>
+    }
   </main>
 </div>
