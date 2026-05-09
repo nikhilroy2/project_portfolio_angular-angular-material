@@ -1,1 +1,22 @@
-/* You can add global styles to this file, and also import other style files */
+@import '@angular/material/prebuilt-themes/azure-blue.css';
+
+* {
+  box-sizing: border-box;
+  font-family: Roboto, Arial, sans-serif!important;
+}
+
+html,
+body {
+  min-height: 100%;
+  margin: 0;
+}
+
+body {
+  background: #F5F7FA;
+  color: #222b45;
+}
+
+button,
+a {
+  font: inherit;
+}

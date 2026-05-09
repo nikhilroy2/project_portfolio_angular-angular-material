@@ -1,0 +1,138 @@
+<div class="dashboard">
+  <aside class="sidebar" [class.mobile-expanded]="mobileNavOpen()" aria-label="Sidebar navigation">
+    <div class="mobile-brand">
+      <div class="mobile-title">
+        <app-icon name="apps" />
+        <span>{{ activeItem() }}</span>
+      </div>
+      <button class="mobile-menu-button" type="button" (click)="toggleMobileNav()" [attr.aria-expanded]="mobileNavOpen()">
+        <app-icon [name]="mobileNavOpen() ? 'close' : 'menu'" />
+      </button>
+    </div>
+
+    <nav [class.mobile-open]="mobileNavOpen()">
+      @for (item of sidebarItems; track item.label) {
+        <section class="nav-group" [class.workspace-group]="item.children">
+          <button
+            class="nav-link"
+            type="button"
+            [class.active-parent]="isActive(item)"
+            [class.active-leaf]="activeItem() === item.label"
+            (click)="selectItem(item)"
+            [attr.aria-expanded]="item.children ? workspaceOpen() : null"
+            [attr.aria-current]="activeItem() === item.label ? 'page' : null"
+          >
+            <app-icon class="nav-icon" [name]="item.icon" />
+            <span>{{ item.label }}</span>
+            @if (item.badge) {
+              <span class="badge">{{ item.badge }}</span>
+            }
+            @if (item.children) {
+              <app-icon class="chevron" name="expand_more" [class.rotate]="workspaceOpen()" />
+            }
+            @if (item.trailingIcon) {
+              <app-icon class="trailing-icon" [name]="item.trailingIcon" />
+            }
+          </button>
+
+          @if (item.children && workspaceOpen()) {
+            <div class="sub-nav">
+              @for (child of item.children; track child.path) {
+                <button
+                  class="sub-link"
+                  type="button"
+                  [class.active]="activeItem() === child.label"
+                  (click)="selectChild(child)"
+                  [attr.aria-current]="activeItem() === child.label ? 'page' : null"
+                >
+                  {{ child.label }}
+                </button>
+              }
+            </div>
+          }
+        </section>
+      }
+    </nav>
+
+    <button
+      class="sidebar-edge-toggle"
+      type="button"
+      (click)="toggleMobileNav()"
+      [attr.aria-expanded]="mobileNavOpen()"
+      aria-label="Expand sidebar"
+    >
+      <app-icon name="chevron_right" />
+    </button>
+  </aside>
+
+  <main class="content">
+    <section class="project-table" aria-label="Project requests">
+      @for (row of rows; track row.id) {
+        <div class="project-row">
+          <button class="expand-button" type="button" aria-label="Expand row">
+            <app-icon [name]="row.id === 524 ? 'expand_more' : 'chevron_right'" />
+          </button>
+          <strong>{{ row.id }}</strong>
+          <span class="project-title">{{ row.title }}</span>
+          <span class="request-type">{{ row.type }}</span>
+          <span class="order-number">{{ row.order ?? '' }}</span>
+          <span class="status-pill">{{ row.status }}</span>
+        </div>
+      }
+    </section>
+
+    <section class="panel-section">
+      <h2>Documents</h2>
+      <div class="button-grid documents" role="tablist" aria-label="Documents">
+        @for (document of documents; track document) {
+          <button
+            type="button"
+            role="tab"
+            [class.active-tab]="activeDocument() === document"
+            [class.disabled-button]="activeDocument() === document"
+            [attr.aria-selected]="activeDocument() === document"
+            (click)="selectDocument(document)"
+          >
+            {{ document }}
+          </button>
+        }
+      </div>
+    </section>
+
+    <section class="panel-section">
+      <h2>Actions</h2>
+      <div class="button-grid" role="tablist" aria-label="Actions">
+        <button
+          type="button"
+          role="tab"
+          [class.active-tab]="activeAction() === 'Actions'"
+          [attr.aria-selected]="activeAction() === 'Actions'"
+          (click)="selectAction('Actions')"
+        >
+          Actions
+        </button>
+      </div>
+    </section>
+
+    <section class="panel-section workflow-section">
+      <h2>Workflow</h2>
+      <div class="workflow-track">
+        @for (step of workflow; track step.role; let last = $last) {
+          <div class="workflow-item">
+            <span class="workflow-role">{{ step.role }}</span>
+            <span class="check-circle"><app-icon name="check" /></span>
+            @if (!last) {
+              <span class="connector"></span>
+            }
+            <mat-card class="approval-card">
+              <span class="status-chip">{{ step.status }}</span>
+              <p><span class="calendar-icon" aria-hidden="true"></span>{{ step.date }}</p>
+              <p><span class="person-icon" aria-hidden="true"></span>-</p>
+            </mat-card>
+          </div>
+        }
+      </div>
+      <p class="approval-note">Order has been approved. ()</p>
+    </section>
+  </main>
+</div>
