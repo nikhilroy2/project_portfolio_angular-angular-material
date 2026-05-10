@@ -45,6 +45,7 @@
                   (click)="selectChild(child)"
                   [attr.aria-current]="activeItem() === child.label ? 'page' : null"
                 >
+                  <app-icon class="sub-icon" [name]="child.icon" />
                   {{ child.label }}
                 </button>
               }
@@ -68,7 +69,49 @@
   <main class="content">
     @if (activeItem() === 'Projects') {
       <section class="projects-page">
-        <h1>Projects</h1>
+        <div class="page-hero projects-hero">
+          <div>
+            <span class="hero-kicker">Workspace Overview</span>
+            <h1>Projects</h1>
+            <p>Track portfolio requests, approvals, and next ownership steps in one workspace.</p>
+          </div>
+        </div>
+
+        <section class="summary-grid project-summary-grid" aria-label="Project summary">
+          @for (card of projectSummaryCards; track card.label) {
+            <article class="summary-card" [class]="'tone-' + card.tone">
+              <span class="card-icon"><app-icon [name]="card.icon" /></span>
+              <span class="summary-label">{{ card.label }}</span>
+              <strong>{{ card.value }}</strong>
+              <small>{{ card.helper }}</small>
+            </article>
+          }
+        </section>
+
+        <section class="graph-grid project-graph-grid" aria-label="Project analytics">
+          @for (graph of projectGraphCards; track graph.title) {
+            <article class="graph-card" [class]="'tone-' + graph.tone">
+              <div class="graph-card-header">
+                <span class="card-icon"><app-icon [name]="graph.icon" /></span>
+                <div>
+                  <h3>{{ graph.title }}</h3>
+                  <strong>{{ graph.value }}</strong>
+                </div>
+              </div>
+              <svg class="mini-chart" viewBox="0 0 100 56" role="img" [attr.aria-label]="graph.title + ' trend'">
+                <defs>
+                  <linearGradient [id]="'fill-' + graph.tone" x1="0" x2="0" y1="0" y2="1">
+                    <stop offset="0%" stop-color="currentColor" stop-opacity="0.22" />
+                    <stop offset="100%" stop-color="currentColor" stop-opacity="0" />
+                  </linearGradient>
+                </defs>
+                <polyline class="chart-fill" [attr.points]="'4,56 ' + graph.points + ' 96,56'" [attr.fill]="'url(#fill-' + graph.tone + ')'" />
+                <polyline class="chart-line" [attr.points]="graph.points" />
+              </svg>
+              <p>{{ graph.helper }}</p>
+            </article>
+          }
+        </section>
 
         <div class="filter-bar">
           <button class="filter-title" type="button">Projects Filters</button>
@@ -161,8 +204,62 @@
             }
           </div>
         </section>
+
+        <section class="creative-panel-grid" aria-label="Project insights">
+          @for (insight of projectInsights; track insight.title) {
+            <article class="creative-panel">
+              <span class="content-icon"><app-icon [name]="insight.icon" /></span>
+              <h3>{{ insight.title }}</h3>
+              <p>{{ insight.description }}</p>
+            </article>
+          }
+        </section>
       </section>
     } @else {
+      <section class="page-hero detail-hero">
+        <div>
+          <span class="hero-kicker">Portfolio Detail</span>
+          <h1>{{ activeItem() }}</h1>
+          <p>Review request progress, document tabs, actions, and stakeholder workflow in one place.</p>
+        </div>
+      </section>
+
+      <section class="summary-grid" aria-label="Detail summary">
+        @for (card of detailSummaryCards; track card.label) {
+          <article class="summary-card" [class]="'tone-' + card.tone">
+            <span class="card-icon"><app-icon [name]="card.icon" /></span>
+            <span class="summary-label">{{ card.label }}</span>
+            <strong>{{ card.value }}</strong>
+            <small>{{ card.helper }}</small>
+          </article>
+        }
+      </section>
+
+      <section class="graph-grid" aria-label="Detail analytics">
+        @for (graph of detailGraphCards; track graph.title) {
+          <article class="graph-card" [class]="'tone-' + graph.tone">
+            <div class="graph-card-header">
+              <span class="card-icon"><app-icon [name]="graph.icon" /></span>
+              <div>
+                <h3>{{ graph.title }}</h3>
+                <strong>{{ graph.value }}</strong>
+              </div>
+            </div>
+            <svg class="mini-chart" viewBox="0 0 100 56" role="img" [attr.aria-label]="graph.title + ' trend'">
+              <defs>
+                <linearGradient [id]="'detail-fill-' + graph.tone" x1="0" x2="0" y1="0" y2="1">
+                  <stop offset="0%" stop-color="currentColor" stop-opacity="0.22" />
+                  <stop offset="100%" stop-color="currentColor" stop-opacity="0" />
+                </linearGradient>
+              </defs>
+              <polyline class="chart-fill" [attr.points]="'4,56 ' + graph.points + ' 96,56'" [attr.fill]="'url(#detail-fill-' + graph.tone + ')'" />
+              <polyline class="chart-line" [attr.points]="graph.points" />
+            </svg>
+            <p>{{ graph.helper }}</p>
+          </article>
+        }
+      </section>
+
       <section class="project-table" aria-label="Project requests">
         @for (row of rows; track row.id) {
           <div class="project-row">
@@ -230,6 +327,38 @@
           }
         </div>
         <p class="approval-note">Order has been approved. ()</p>
+      </section>
+
+      <section class="insight-grid" aria-label="Workflow insights">
+        @for (insight of detailInsights; track insight.title) {
+          <article class="insight-card">
+            <span class="content-icon"><app-icon [name]="insight.icon" /></span>
+            <div>
+              <h3>{{ insight.title }}</h3>
+              <p>{{ insight.description }}</p>
+            </div>
+          </article>
+        }
+      </section>
+
+      <section class="timeline-panel" aria-label="Request timeline">
+        <div class="timeline-heading">
+          <span class="hero-kicker">Request Timeline</span>
+          <h2>Progress Snapshot</h2>
+        </div>
+
+        <div class="timeline-list">
+          @for (item of detailTimeline; track item.label) {
+            <article class="timeline-item">
+              <span class="content-icon timeline-icon"><app-icon [name]="item.icon" /></span>
+              <div>
+                <strong>{{ item.label }}</strong>
+                <span>{{ item.date }}</span>
+              </div>
+              <em>{{ item.status }}</em>
+            </article>
+          }
+        </div>
       </section>
     }
   </main>

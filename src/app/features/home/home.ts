@@ -9,6 +9,7 @@ import { MATERIAL_IMPORTS } from '../../shared/material/material-imports';
 interface SidebarChild {
   label: string;
   path: string;
+  icon: string;
 }
 
 interface SidebarItem {
@@ -54,6 +55,36 @@ interface ProjectWorkflowStep {
   current?: boolean;
 }
 
+interface SummaryCard {
+  label: string;
+  value: string;
+  helper: string;
+  tone: 'blue' | 'green' | 'purple' | 'amber';
+  icon: string;
+}
+
+interface InsightItem {
+  title: string;
+  description: string;
+  icon: string;
+}
+
+interface TimelineItem {
+  label: string;
+  date: string;
+  status: string;
+  icon: string;
+}
+
+interface GraphCard {
+  title: string;
+  value: string;
+  helper: string;
+  icon: string;
+  tone: 'blue' | 'green' | 'purple' | 'amber';
+  points: string;
+}
+
 @Component({
   selector: 'app-home',
   imports: [AppIcon, ...MATERIAL_IMPORTS],
@@ -79,11 +110,11 @@ export class Home {
       icon: 'layers',
       path: '/my-workspace',
       children: [
-        { label: 'Subportfolios', path: '/subportfolios' },
-        { label: 'Programs', path: '/programs' },
-        { label: 'Projects', path: '/projects' },
-        { label: 'Orders', path: '/orders' },
-        { label: 'Ideas', path: '/ideas' },
+        { label: 'Subportfolios', path: '/subportfolios', icon: 'layers' },
+        { label: 'Programs', path: '/programs', icon: 'apps' },
+        { label: 'Projects', path: '/projects', icon: 'article' },
+        { label: 'Orders', path: '/orders', icon: 'check_circle' },
+        { label: 'Ideas', path: '/ideas', icon: 'info' },
       ],
     },
     { label: 'Approvals', icon: 'check_circle', path: '/approvals', badge: '33' },
@@ -103,6 +134,50 @@ export class Home {
     { role: 'PMO', status: 'Approved', date: '11. Nov 2025' },
     { role: 'SPONSOR', status: 'Approved', date: '11. Nov 2025' },
     { role: 'FICO', status: 'Approved', date: '11. Nov 2025' },
+  ];
+
+  protected readonly detailSummaryCards: SummaryCard[] = [
+    { label: 'Current Stage', value: 'Order', helper: 'Ready for closing report', tone: 'blue', icon: 'article' },
+    { label: 'Approval Status', value: 'Approved', helper: '3 workflow steps completed', tone: 'green', icon: 'check_circle' },
+    { label: 'Open Documents', value: '5', helper: 'Project files available', tone: 'purple', icon: 'menu_book' },
+  ];
+
+  protected readonly detailInsights: InsightItem[] = [
+    {
+      title: 'Next best action',
+      description: 'Review the closing report and prepare the final project package.',
+      icon: 'chevron_right',
+    },
+    {
+      title: 'Workflow health',
+      description: 'All mandatory stakeholders have completed their approvals.',
+      icon: 'check_circle',
+    },
+  ];
+
+  protected readonly detailTimeline: TimelineItem[] = [
+    { label: 'Idea created', date: '11 Nov 2025', status: 'Captured', icon: 'info' },
+    { label: 'Order reviewed', date: '11 Nov 2025', status: 'Approved', icon: 'check_circle' },
+    { label: 'Closing report', date: 'Pending', status: 'Next', icon: 'article' },
+  ];
+
+  protected readonly detailGraphCards: GraphCard[] = [
+    {
+      title: 'Document Readiness',
+      value: '80%',
+      helper: '4 of 5 documents are ready for review',
+      icon: 'menu_book',
+      tone: 'blue',
+      points: '4,46 22,34 40,38 58,22 76,18 94,12',
+    },
+    {
+      title: 'Approval Coverage',
+      value: '100%',
+      helper: 'PMO, Sponsor, and FICO approvals are complete',
+      icon: 'check_circle',
+      tone: 'green',
+      points: '4,42 22,28 40,24 58,16 76,16 94,10',
+    },
   ];
 
   protected readonly projectListRows: ProjectListRow[] = [
@@ -132,6 +207,58 @@ export class Home {
       status: 'Submitted',
       owner: 'Manager, Portfolio',
       current: true,
+    },
+  ];
+
+  protected readonly projectSummaryCards: SummaryCard[] = [
+    { label: 'Open Projects', value: '01', helper: 'Currently in review', tone: 'blue', icon: 'layers' },
+    { label: 'Submitted', value: '01', helper: 'Waiting for PMO action', tone: 'purple', icon: 'article' },
+    { label: 'Approved', value: '01', helper: 'Sponsor step completed', tone: 'green', icon: 'check_circle' },
+    { label: 'Priority', value: 'P1', helper: 'Development project', tone: 'amber', icon: 'pie_chart' },
+  ];
+
+  protected readonly projectInsights: InsightItem[] = [
+    {
+      title: 'Review focus',
+      description: 'PMO needs to validate ownership, priority, and submission details before moving forward.',
+      icon: 'settings',
+    },
+    {
+      title: 'Portfolio signal',
+      description: 'The request is open and already has sponsor approval, so the next step is operational review.',
+      icon: 'check_circle',
+    },
+    {
+      title: 'Decision path',
+      description: 'Use the action selector to move the item from submitted review toward final decision.',
+      icon: 'chevron_right',
+    },
+  ];
+
+  protected readonly projectGraphCards: GraphCard[] = [
+    {
+      title: 'Review Velocity',
+      value: '+24%',
+      helper: 'Faster movement after sponsor approval',
+      icon: 'pie_chart',
+      tone: 'green',
+      points: '4,44 20,39 36,42 52,28 68,22 84,15 96,10',
+    },
+    {
+      title: 'Decision Queue',
+      value: '01',
+      helper: 'One project waiting for PMO decision',
+      icon: 'article',
+      tone: 'purple',
+      points: '4,28 20,30 36,24 52,32 68,22 84,24 96,18',
+    },
+    {
+      title: 'Priority Signal',
+      value: 'P1',
+      helper: 'High priority development project',
+      icon: 'settings',
+      tone: 'amber',
+      points: '4,40 20,38 36,32 52,26 68,20 84,16 96,12',
     },
   ];
 
